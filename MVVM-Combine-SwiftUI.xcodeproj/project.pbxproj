@@ -7,18 +7,46 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D845E08B2C4E5F5E00F3D071 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E08A2C4E5F5E00F3D071 /* Constant.swift */; };
+		D845E08E2C4E5FC800F3D071 /* DebugPrint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E08D2C4E5FC800F3D071 /* DebugPrint.swift */; };
+		D845E0B82C4E6C6E00F3D071 /* NoteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0A52C4E6C6D00F3D071 /* NoteList.swift */; };
+		D845E0B92C4E6C6E00F3D071 /* NoteListUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0A72C4E6C6D00F3D071 /* NoteListUseCase.swift */; };
+		D845E0BA2C4E6C6E00F3D071 /* NoteListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0A92C4E6C6D00F3D071 /* NoteListCoordinator.swift */; };
+		D845E0BB2C4E6C6E00F3D071 /* NoteListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0AC2C4E6C6D00F3D071 /* NoteListViewModel.swift */; };
+		D845E0BC2C4E6C6E00F3D071 /* NoteListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0AE2C4E6C6D00F3D071 /* NoteListViewController.swift */; };
+		D845E0BD2C4E6C6E00F3D071 /* NoteListRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0B12C4E6C6D00F3D071 /* NoteListRepository.swift */; };
+		D845E0BE2C4E6C6E00F3D071 /* NoteListResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0B42C4E6C6D00F3D071 /* NoteListResponseDTO.swift */; };
+		D845E0BF2C4E6C6E00F3D071 /* NoteListRequestDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0B52C4E6C6D00F3D071 /* NoteListRequestDTO.swift */; };
+		D845E0C02C4E6C6E00F3D071 /* NoteListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D845E0B72C4E6C6D00F3D071 /* NoteListService.swift */; };
 		D8CC4E1F2C29194A006F6D43 /* MVVM_Combine_SwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC4E1E2C29194A006F6D43 /* MVVM_Combine_SwiftUIApp.swift */; };
 		D8CC4E212C29194A006F6D43 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC4E202C29194A006F6D43 /* ContentView.swift */; };
 		D8CC4E232C29194D006F6D43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8CC4E222C29194D006F6D43 /* Assets.xcassets */; };
 		D8CC4E262C29194D006F6D43 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D8CC4E252C29194D006F6D43 /* Preview Assets.xcassets */; };
+		D8CC4E2F2C291A83006F6D43 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC4E2E2C291A83006F6D43 /* NetworkManager.swift */; };
+		D8CC4E312C291B98006F6D43 /* URLSession+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC4E302C291B98006F6D43 /* URLSession+Ext.swift */; };
+		D8CC4E332C291D2D006F6D43 /* CodableManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC4E322C291D2D006F6D43 /* CodableManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D845E08A2C4E5F5E00F3D071 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		D845E08D2C4E5FC800F3D071 /* DebugPrint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugPrint.swift; sourceTree = "<group>"; };
+		D845E0A52C4E6C6D00F3D071 /* NoteList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteList.swift; sourceTree = "<group>"; };
+		D845E0A72C4E6C6D00F3D071 /* NoteListUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteListUseCase.swift; sourceTree = "<group>"; };
+		D845E0A92C4E6C6D00F3D071 /* NoteListCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteListCoordinator.swift; sourceTree = "<group>"; };
+		D845E0AC2C4E6C6D00F3D071 /* NoteListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteListViewModel.swift; sourceTree = "<group>"; };
+		D845E0AE2C4E6C6D00F3D071 /* NoteListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteListViewController.swift; sourceTree = "<group>"; };
+		D845E0B12C4E6C6D00F3D071 /* NoteListRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteListRepository.swift; sourceTree = "<group>"; };
+		D845E0B42C4E6C6D00F3D071 /* NoteListResponseDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteListResponseDTO.swift; sourceTree = "<group>"; };
+		D845E0B52C4E6C6D00F3D071 /* NoteListRequestDTO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteListRequestDTO.swift; sourceTree = "<group>"; };
+		D845E0B72C4E6C6D00F3D071 /* NoteListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteListService.swift; sourceTree = "<group>"; };
 		D8CC4E1B2C29194A006F6D43 /* MVVM-Combine-SwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MVVM-Combine-SwiftUI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8CC4E1E2C29194A006F6D43 /* MVVM_Combine_SwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVM_Combine_SwiftUIApp.swift; sourceTree = "<group>"; };
 		D8CC4E202C29194A006F6D43 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D8CC4E222C29194D006F6D43 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D8CC4E252C29194D006F6D43 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D8CC4E2E2C291A83006F6D43 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		D8CC4E302C291B98006F6D43 /* URLSession+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Ext.swift"; sourceTree = "<group>"; };
+		D8CC4E322C291D2D006F6D43 /* CodableManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +60,142 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D845E0872C4E5E1300F3D071 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0A22C4E6A4B00F3D071 /* NoteList */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		D845E0892C4E5F4000F3D071 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				D845E08A2C4E5F5E00F3D071 /* Constant.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		D845E08C2C4E5FBC00F3D071 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D845E08D2C4E5FC800F3D071 /* DebugPrint.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		D845E0A22C4E6A4B00F3D071 /* NoteList */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0A82C4E6C6D00F3D071 /* Coordinator */,
+				D845E0AF2C4E6C6D00F3D071 /* Data */,
+				D845E0A32C4E6C6D00F3D071 /* Domain */,
+				D845E0AA2C4E6C6D00F3D071 /* Scene */,
+			);
+			path = NoteList;
+			sourceTree = "<group>";
+		};
+		D845E0A32C4E6C6D00F3D071 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0A42C4E6C6D00F3D071 /* Entity */,
+				D845E0A62C4E6C6D00F3D071 /* UseCase */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		D845E0A42C4E6C6D00F3D071 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0A52C4E6C6D00F3D071 /* NoteList.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		D845E0A62C4E6C6D00F3D071 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0A72C4E6C6D00F3D071 /* NoteListUseCase.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		D845E0A82C4E6C6D00F3D071 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0A92C4E6C6D00F3D071 /* NoteListCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		D845E0AA2C4E6C6D00F3D071 /* Scene */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0AB2C4E6C6D00F3D071 /* ViewModel */,
+				D845E0AD2C4E6C6D00F3D071 /* View */,
+			);
+			path = Scene;
+			sourceTree = "<group>";
+		};
+		D845E0AB2C4E6C6D00F3D071 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0AC2C4E6C6D00F3D071 /* NoteListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		D845E0AD2C4E6C6D00F3D071 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0AE2C4E6C6D00F3D071 /* NoteListViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D845E0AF2C4E6C6D00F3D071 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0B02C4E6C6D00F3D071 /* Repository */,
+				D845E0B22C4E6C6D00F3D071 /* Networking */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		D845E0B02C4E6C6D00F3D071 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0B12C4E6C6D00F3D071 /* NoteListRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		D845E0B22C4E6C6D00F3D071 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0B32C4E6C6D00F3D071 /* DTO */,
+				D845E0B62C4E6C6D00F3D071 /* Service */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		D845E0B32C4E6C6D00F3D071 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0B42C4E6C6D00F3D071 /* NoteListResponseDTO.swift */,
+				D845E0B52C4E6C6D00F3D071 /* NoteListRequestDTO.swift */,
+			);
+			path = DTO;
+			sourceTree = "<group>";
+		};
+		D845E0B62C4E6C6D00F3D071 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				D845E0B72C4E6C6D00F3D071 /* NoteListService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		D8CC4E122C29194A006F6D43 = {
 			isa = PBXGroup;
 			children = (
@@ -51,6 +215,10 @@
 		D8CC4E1D2C29194A006F6D43 /* MVVM-Combine-SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				D845E08C2C4E5FBC00F3D071 /* Helpers */,
+				D845E0892C4E5F4000F3D071 /* Constants */,
+				D845E0872C4E5E1300F3D071 /* Modules */,
+				D8CC4E2C2C291972006F6D43 /* Infrastructure */,
 				D8CC4E1E2C29194A006F6D43 /* MVVM_Combine_SwiftUIApp.swift */,
 				D8CC4E202C29194A006F6D43 /* ContentView.swift */,
 				D8CC4E222C29194D006F6D43 /* Assets.xcassets */,
@@ -65,6 +233,24 @@
 				D8CC4E252C29194D006F6D43 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D8CC4E2C2C291972006F6D43 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				D8CC4E2D2C291A44006F6D43 /* Networking */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		D8CC4E2D2C291A44006F6D43 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				D8CC4E2E2C291A83006F6D43 /* NetworkManager.swift */,
+				D8CC4E302C291B98006F6D43 /* URLSession+Ext.swift */,
+				D8CC4E322C291D2D006F6D43 /* CodableManager.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +323,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8CC4E2F2C291A83006F6D43 /* NetworkManager.swift in Sources */,
+				D845E08E2C4E5FC800F3D071 /* DebugPrint.swift in Sources */,
+				D845E0BD2C4E6C6E00F3D071 /* NoteListRepository.swift in Sources */,
+				D845E0C02C4E6C6E00F3D071 /* NoteListService.swift in Sources */,
+				D845E0BA2C4E6C6E00F3D071 /* NoteListCoordinator.swift in Sources */,
 				D8CC4E212C29194A006F6D43 /* ContentView.swift in Sources */,
+				D845E0B82C4E6C6E00F3D071 /* NoteList.swift in Sources */,
+				D8CC4E312C291B98006F6D43 /* URLSession+Ext.swift in Sources */,
+				D845E0B92C4E6C6E00F3D071 /* NoteListUseCase.swift in Sources */,
 				D8CC4E1F2C29194A006F6D43 /* MVVM_Combine_SwiftUIApp.swift in Sources */,
+				D845E0BF2C4E6C6E00F3D071 /* NoteListRequestDTO.swift in Sources */,
+				D845E0BC2C4E6C6E00F3D071 /* NoteListViewController.swift in Sources */,
+				D845E0BE2C4E6C6E00F3D071 /* NoteListResponseDTO.swift in Sources */,
+				D8CC4E332C291D2D006F6D43 /* CodableManager.swift in Sources */,
+				D845E0BB2C4E6C6E00F3D071 /* NoteListViewModel.swift in Sources */,
+				D845E08B2C4E5F5E00F3D071 /* Constant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
