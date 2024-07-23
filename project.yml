@@ -1,0 +1,14 @@
+name: MVVM-Combine-SwiftUI
+options:
+  bundleIdPrefix: com.example
+targets:
+  MVVM-Combine-SwiftUI:
+    type: application
+    platform: iOS
+    sources: [MVVM-Combine-SwiftUI]
+    resources: [Resources]
+schemes:
+  MVVM-Combine-SwiftUI:
+    build:
+      targets:
+        MVVM-Combine-SwiftUI: all
