@@ -14,6 +14,8 @@ internal class NoteListViewController: UIViewController {
     private var viewModel: NoteListViewModel!
     private var cancelables = Set<AnyCancellable>()
     
+    private var count: Int = 0
+    
     // MARK: - Publisher
     private let didLoadPublisher = PassthroughSubject<Void, Never>()
     
@@ -22,6 +24,13 @@ internal class NoteListViewController: UIViewController {
         let label = UILabel()
         label.text = "Hello world"
         return label
+    }()
+    
+    private let addButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("Tap me!", for: .normal)
+        btn.setTitleColor(.red, for: .normal)
+        return btn
     }()
     
     // MARK: - Initialization Method
@@ -45,7 +54,7 @@ internal class NoteListViewController: UIViewController {
     }
     
     private func setupView() {
-        [nameLabel].forEach {
+        [nameLabel, addButton].forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -54,6 +63,15 @@ internal class NoteListViewController: UIViewController {
             nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             nameLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
+        
+        NSLayoutConstraint.activate([
+            addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addButton.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20),
+            addButton.widthAnchor.constraint(equalToConstant: 200),
+            addButton.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        addButton.addTarget(self, action: #selector(didTapped), for: .touchUpInside)
     }
 
     // MARK: - Bind View Model
@@ -68,6 +86,13 @@ internal class NoteListViewController: UIViewController {
 
     private func bindViewModelOutput() {
 
+    }
+    
+    @objc
+    private func didTapped() {
+        debugPrint("Hello im tapped!")
+        count += 1
+        nameLabel.text = "Tapped \(count) times"
     }
 }
 
