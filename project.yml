@@ -1,4 +1,7 @@
 name: MVVM-Combine-SwiftUI
+settings:
+  MARKETING_VERSION: "1.0"
+  CURRENT_PROJECT_VERSION: 1
 options:
   bundleIdPrefix: com.example
 targets:
@@ -7,6 +10,9 @@ targets:
     platform: iOS
     sources: [MVVM-Combine-SwiftUI]
     resources: [Resources]
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.example.MVVM-Combine-SwiftUI
+      INFOPLIST_FILE: MVVM-Combine-SwiftUI/Info.plist
 schemes:
   MVVM-Combine-SwiftUI:
     build:
