@@ -1,0 +1,15 @@
+# Project
+**/*.xcodeproj
+**/*.xcworkspace
+
+## App packaging
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.zip
+dSYMs.zip
+
+# Others
+*.mobileprovision
+.vscode/
+.ruby-version
