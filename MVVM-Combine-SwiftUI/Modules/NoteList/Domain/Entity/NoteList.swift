@@ -8,5 +8,5 @@
 import Foundation
 
 internal struct NoteListModel: Equatable {
-    
+    let title: String
 }

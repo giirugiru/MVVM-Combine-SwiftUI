@@ -46,6 +46,7 @@ internal class NoteListViewController: UIViewController {
         super.viewDidLoad()
         
         setupView()
+        bindViewModel()
     }
     
     deinit {
@@ -85,7 +86,21 @@ internal class NoteListViewController: UIViewController {
     }
 
     private func bindViewModelOutput() {
-
+        viewModel.output.$result
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] result in
+                guard let self else { return }
+                
+                switch result {
+                case .initial: break
+                case let .success(model):
+                    print(model)
+                    nameLabel.text = model.title
+                case let .failure(error):
+                    print(error)
+                }
+            }
+            .store(in: &cancelables)
     }
     
     @objc
@@ -93,6 +108,7 @@ internal class NoteListViewController: UIViewController {
         debugPrint("Hello im tapped!")
         count += 1
         nameLabel.text = "Tapped \(count) times"
+        didLoadPublisher.send()
     }
 }
 

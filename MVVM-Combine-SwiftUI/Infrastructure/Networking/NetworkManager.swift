@@ -35,15 +35,11 @@ public class NetworkManager {
         case invalidParameters
     }
     
-    func makeRequest(
-        urlString: String,
-        method: HTTPMethod,
-        parameters: [String: Any]? = nil,
-        encoding: EncodingType = .json
+    func makeRequest(_ request: APIService
     ) -> AnyPublisher<Data, Error> {
-        var urlString = urlString
+        var urlString = request.baseURL + request.path
         
-        if method == .GET, let parameters = parameters, encoding == .url {
+        if request.method == .GET, let parameters = request.params, request.parameterEncoding == .url {
             urlString = encodeURL(urlString: urlString, parameters: parameters)
         }
         
@@ -51,26 +47,26 @@ public class NetworkManager {
             return Fail(error: NetworkError.invalidURL).eraseToAnyPublisher()
         }
         
-        var request = URLRequest(url: url)
-        request.httpMethod = method.rawValue
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = request.method.rawValue
         
-        if method != .GET, let parameters = parameters {
+        if request.method != .GET, let parameters = request.params {
             do {
-                switch encoding {
+                switch request.parameterEncoding {
                 case .json:
-                    request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
-                    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                    urlRequest.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: [])
+                    urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 case .url:
                     let encodedParameters = parameters.map { "\($0.key)=\($0.value)" }.joined(separator: "&")
-                    request.httpBody = encodedParameters.data(using: .utf8)
-                    request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                    urlRequest.httpBody = encodedParameters.data(using: .utf8)
+                    urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                 }
             } catch let error {
                 return Fail(error: error).eraseToAnyPublisher()
             }
         }
         
-        return session.dataTaskPublisher(for: request)
+        return session.dataTaskPublisher(for: urlRequest)
             .tryMap { output in
                 guard let httpResponse = output.response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                     throw NetworkError.invalidResponse

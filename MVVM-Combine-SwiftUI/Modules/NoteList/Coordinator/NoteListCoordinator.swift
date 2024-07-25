@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public class NoteListCoordinator {
+public final class NoteListCoordinator {
     
     // MARK: - Properties
     private var navigationController: UINavigationController?
