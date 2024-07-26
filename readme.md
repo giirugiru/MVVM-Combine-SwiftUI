@@ -1,7 +1,7 @@
 # NotesApp
 
 ## Overview
-`NotesApp` is an iOS application built using MVVM architecture, Combine, and SwiftUI. This project demonstrates a clean and scalable approach to iOS development with modern Swift paradigms.
+`ToDoListApp` is an iOS application built using MVVM architecture, Combine, and SwiftUI. This project demonstrates a clean and scalable approach to iOS development with modern Swift paradigms and SOLID principles.
 
 ## Project Setup
 
@@ -22,8 +22,9 @@
     brew install xcodegen
 
 3. **Generate the Xcode project:**
-    ``sh
+    ```sh
     make generate_project
+   ```
 
 ### Technologies Used
 - SwiftUI: For building the user interface.
