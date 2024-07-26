@@ -17,7 +17,8 @@ internal struct NoteListService {
             path: path,
             headers: nil,
             params: nil,
-            parameterEncoding: .json)
+            parameterEncoding: .json
+        )
     }
 }
 

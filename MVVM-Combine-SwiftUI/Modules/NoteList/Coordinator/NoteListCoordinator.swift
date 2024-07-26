@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Combine
 
 public final class NoteListCoordinator {
     
@@ -67,18 +68,26 @@ public final class NoteListCoordinator {
         let vc = makeNoteListViewController()
         return vc
     }
+    
+    // TODO: - Make this work effectively?
+    func routeToAddNote() {
+        // addNoteWrapper.isPresented = true
+    }
 }
 
 struct NoteListViewControllerRepresentable: UIViewControllerRepresentable {
+    
+    @EnvironmentObject private var addNoteWrapper: AddNoteWrapper
+    
     typealias UIViewControllerType = NoteListViewController
     
     func makeUIViewController(context: Context) -> NoteListViewController {
         let coordinator = NoteListCoordinator(navigationController: nil)
         let viewController = coordinator.create()
+        viewController.addNoteWrapper = addNoteWrapper
+        
         return viewController
     }
     
-    func updateUIViewController(_ uiViewController: NoteListViewController, context: Context) {
-
-    }
+    func updateUIViewController(_ uiViewController: NoteListViewController, context: Context) {}
 }

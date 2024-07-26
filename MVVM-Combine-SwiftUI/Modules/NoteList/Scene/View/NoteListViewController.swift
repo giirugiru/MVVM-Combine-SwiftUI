@@ -12,7 +12,9 @@ internal class NoteListViewController: UIViewController {
     
     // MARK: - Properties
     private var viewModel: NoteListViewModel!
-    private var cancelables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
+    
+    @Published internal var addNoteWrapper: AddNoteWrapper = .init()
     
     private var count: Int = 0
     
@@ -23,16 +25,14 @@ internal class NoteListViewController: UIViewController {
         "Write in journal",
         "Meditate for 10 minutes",
         "Read 20 pages of a book",
-        "Drink 8 glasses of water",
-        "Tidy up workspace",
-        "Call a friend or family member",
-        "Practice a new skill for 30 minutes",
-        "Eat a healthy meal",
-        "Take a 30-minute walk"
+        "Drink 8 glasses of water"
     ]
+    // To maintain the strikethrough
+    var strikeThroughDictionary: [IndexPath: Bool] = [:]
     
     // MARK: - Publisher
     private let didLoadPublisher = PassthroughSubject<Void, Never>()
+    private let didTapReminderButtonPublisher = PassthroughSubject<Void, Never>()
     
     // MARK: - Initialization Method
     static func create(
@@ -44,7 +44,7 @@ internal class NoteListViewController: UIViewController {
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: "NoteListXIB", bundle: nil)
+        super.init(nibName: "NoteListViewControllerXIB", bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -55,11 +55,12 @@ internal class NoteListViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         bindViewModel()
+        bindEnvironmentObject()
     }
     
     deinit {
-        cancelables.forEach { $0.cancel() }
-        cancelables.removeAll()
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
     }
     
     private func setupView() {
@@ -72,7 +73,8 @@ internal class NoteListViewController: UIViewController {
     // MARK: - Bind View Model
     private func bindViewModel() {
         let input = NoteListViewModel.Input(
-            didLoad: didLoadPublisher
+            didLoad: didLoadPublisher, 
+            didTapAddReminderButton: didTapReminderButtonPublisher
         )
         
         viewModel.bind(input)
@@ -94,7 +96,22 @@ internal class NoteListViewController: UIViewController {
                     print(error)
                 }
             }
-            .store(in: &cancelables)
+            .store(in: &cancellables)
+    }
+    
+    // TODO: - I think this could be further improved :)
+    internal func bindEnvironmentObject() {
+        addNoteWrapper.$list.sink { [weak self] list in
+            guard let self = self else { return }
+            self.stringArray = list
+            self.tableView.reloadData()
+        }.store(in: &cancellables)
+    }
+    
+    @IBAction func didTapNewReminderButton(_ sender: UIButton) {
+        addNoteWrapper.isPresented = true
+        // TODO: - Fix this logic?
+        // didTapReminderButtonPublisher.send()
     }
     
     @objc
@@ -126,7 +143,16 @@ extension NoteListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
             stringArray.remove(at: indexPath.row)
-            tableView.reloadData()
+            addNoteWrapper.list.remove(at: indexPath.row)
         }
+    }
+    
+    // TODO: - Find a way to permanently set strike through
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // strikeThroughDictionary[indexPath.row] = true
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        // strikeThroughDictionary[indexPath.row] = false
     }
 }
