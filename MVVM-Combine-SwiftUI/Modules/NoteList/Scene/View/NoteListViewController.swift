@@ -16,22 +16,23 @@ internal class NoteListViewController: UIViewController {
     
     private var count: Int = 0
     
+    @IBOutlet weak var tableView: UITableView!
+    
+    var stringArray: [String] = [
+        "Complete daily workout",
+        "Write in journal",
+        "Meditate for 10 minutes",
+        "Read 20 pages of a book",
+        "Drink 8 glasses of water",
+        "Tidy up workspace",
+        "Call a friend or family member",
+        "Practice a new skill for 30 minutes",
+        "Eat a healthy meal",
+        "Take a 30-minute walk"
+    ]
+    
     // MARK: - Publisher
     private let didLoadPublisher = PassthroughSubject<Void, Never>()
-    
-    // MARK: - Views
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Hello world"
-        return label
-    }()
-    
-    private let addButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("Tap me!", for: .normal)
-        btn.setTitleColor(.red, for: .normal)
-        return btn
-    }()
     
     // MARK: - Initialization Method
     static func create(
@@ -42,9 +43,16 @@ internal class NoteListViewController: UIViewController {
         return vc
     }
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: "NoteListXIB", bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupView()
         bindViewModel()
     }
@@ -55,24 +63,10 @@ internal class NoteListViewController: UIViewController {
     }
     
     private func setupView() {
-        [nameLabel, addButton].forEach {
-            view.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
-        NSLayoutConstraint.activate([
-            nameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            nameLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            addButton.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 20),
-            addButton.widthAnchor.constraint(equalToConstant: 200),
-            addButton.heightAnchor.constraint(equalToConstant: 40)
-        ])
-        
-        addButton.addTarget(self, action: #selector(didTapped), for: .touchUpInside)
+        // Configure tableView
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UINib(nibName: "NoteListTableViewCellXIB", bundle: nil), forCellReuseIdentifier: "NoteListTableViewCell")
     }
 
     // MARK: - Bind View Model
@@ -90,12 +84,12 @@ internal class NoteListViewController: UIViewController {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] result in
                 guard let self else { return }
-                
                 switch result {
                 case .initial: break
                 case let .success(model):
+                    // TODO: - Integrate this logic later
                     print(model)
-                    nameLabel.text = model.title
+                    // nameLabel.text = model.title
                 case let .failure(error):
                     print(error)
                 }
@@ -105,10 +99,34 @@ internal class NoteListViewController: UIViewController {
     
     @objc
     private func didTapped() {
-        debugPrint("Hello im tapped!")
-        count += 1
-        nameLabel.text = "Tapped \(count) times"
-        didLoadPublisher.send()
+        // TODO: - Integrate this logic later
+//        debugPrint("Hello im tapped!")
+//        count += 1
+//        nameLabel.text = "Tapped \(count) times"
+//        didLoadPublisher.send()
     }
 }
 
+extension NoteListViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return stringArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "NoteListTableViewCell", for: indexPath) as! NoteListTableViewCell
+        let text = stringArray[indexPath.row]
+        cell.setText(text: text)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete) {
+            stringArray.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
+    }
+}
