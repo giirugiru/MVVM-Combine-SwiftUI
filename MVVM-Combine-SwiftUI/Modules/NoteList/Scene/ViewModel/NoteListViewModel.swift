@@ -13,7 +13,7 @@ internal final class NoteListViewModel {
     // MARK: - Properties
     private let coordinator: NoteListCoordinator
     private let useCase: NoteListUseCase
-    private var cancelables = Set<AnyCancellable>()
+    private var cancellables = Set<AnyCancellable>()
     let output = Output()
     
     private var item: NoteListModel?
@@ -21,6 +21,7 @@ internal final class NoteListViewModel {
     // MARK: - Input Output Variable
     struct Input {
         let didLoad: PassthroughSubject<Void, Never>
+        let didTapAddReminderButton: PassthroughSubject<Void, Never>
     }
     
     class Output {
@@ -28,8 +29,8 @@ internal final class NoteListViewModel {
     }
     
     deinit {
-        cancelables.forEach { $0.cancel() }
-        cancelables.removeAll()
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
     }
     
     // MARK: - Initializer
@@ -43,7 +44,6 @@ internal final class NoteListViewModel {
     
     // MARK: - Functions
     func bind(_ input: Input) {
-        
         input.didLoad
             .receive(on: DispatchQueue.global())
             .flatMap {
@@ -64,7 +64,16 @@ internal final class NoteListViewModel {
                     self.output.result = .failure(error)
                 }
             }
-            .store(in: &cancelables)
+            .store(in: &cancellables)
+        
+        input.didTapAddReminderButton
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                guard let self else { return }
+                self.coordinator.routeToAddNote()
+            }
+            .store(in: &cancellables)
+            
     }
 }
 
