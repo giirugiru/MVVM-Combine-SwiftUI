@@ -56,6 +56,7 @@ internal class NoteListViewController: UIViewController {
         setupView()
         bindViewModel()
         bindEnvironmentObject()
+        didLoadPublisher.send()
     }
     
     deinit {
@@ -111,7 +112,7 @@ internal class NoteListViewController: UIViewController {
     @IBAction func didTapNewReminderButton(_ sender: UIButton) {
         addNoteWrapper.isPresented = true
         // TODO: - Fix this logic?
-        // didTapReminderButtonPublisher.send()
+         didTapReminderButtonPublisher.send()
     }
     
     @objc

@@ -4,6 +4,7 @@ settings:
   CURRENT_PROJECT_VERSION: 1
 options:
   bundleIdPrefix: com.example
+  postGenCommand: pod install --clean-install;
 targets:
   MVVM-Combine-SwiftUI:
     type: application
