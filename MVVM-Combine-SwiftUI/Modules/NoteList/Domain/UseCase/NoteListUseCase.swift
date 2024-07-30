@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 internal protocol NoteListUseCase {
-    func fetch() -> AnyPublisher<NoteListModel, Error>
+    func fetch() -> AnyPublisher<[NoteListModel]?, NetworkError>
 }
 
 internal final class DefaultNoteListUseCase: NoteListUseCase {
@@ -21,7 +21,7 @@ internal final class DefaultNoteListUseCase: NoteListUseCase {
         self.repository = repository
     }
 
-    func fetch() -> AnyPublisher<NoteListModel, Error> {
+    func fetch() -> AnyPublisher<[NoteListModel]?, NetworkError> {
         repository.fetch()
     }
     

@@ -58,7 +58,7 @@ internal class NoteListViewController: UIViewController {
         bindEnvironmentObject()
         didLoadPublisher.send()
     }
-    
+
     deinit {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
@@ -86,15 +86,18 @@ internal class NoteListViewController: UIViewController {
         viewModel.output.$result
             .receive(on: DispatchQueue.main)
             .sink { [weak self] result in
-                guard let self else { return }
                 switch result {
-                case .initial: break
-                case let .success(model):
-                    // TODO: - Integrate this logic later
-                    print(model)
-                    // nameLabel.text = model.title
-                case let .failure(error):
-                    print(error)
+                case .failed(let reason):
+                    // TODO: Error Handle UI
+                    print("TODO: Failed \(reason)")
+                case .success(let data):
+                    // TODO: Integrate to view UI
+                    print("TODO: Integrate to view UI \(data)")
+                case .loading:
+                    // TODO: Handle loading UI
+                    print("TODO: Handle loading UI")
+                default:
+                    return
                 }
             }
             .store(in: &cancellables)

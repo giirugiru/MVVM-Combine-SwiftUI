@@ -16,7 +16,7 @@ internal final class NoteListViewModel {
     private var cancellables = Set<AnyCancellable>()
     let output = Output()
     
-    private var item: NoteListModel?
+    private var item: [NoteListModel]?
     
     // MARK: - Input Output Variable
     struct Input {
@@ -25,7 +25,7 @@ internal final class NoteListViewModel {
     }
     
     class Output {
-        @Published var result: NoteListResultData = .initial
+        @Published var result: DataState<[NoteListModel]> = .initiate
     }
     
     deinit {
@@ -44,6 +44,7 @@ internal final class NoteListViewModel {
     
     // MARK: - Functions
     func bind(_ input: Input) {
+        output.result = .loading
         input.didLoad
             .receive(on: DispatchQueue.global())
             .flatMap {
@@ -59,9 +60,9 @@ internal final class NoteListViewModel {
                 switch result {
                 case .success(let model):
                     self.item = model
-                    self.output.result = .success(model)
+                    self.output.result = .success(data: model ?? [])
                 case .failure(let error):
-                    self.output.result = .failure(error)
+                    self.output.result = .failed(reason: error)
                 }
             }
             .store(in: &cancellables)
@@ -74,13 +75,5 @@ internal final class NoteListViewModel {
             }
             .store(in: &cancellables)
             
-    }
-}
-
-extension NoteListViewModel {
-    enum NoteListResultData {
-        case initial
-        case success(NoteListModel)
-        case failure(Error)
     }
 }
