@@ -12,7 +12,6 @@ protocol AddNoteViewControllerDelegate: AnyObject {
     func addNoteViewController(didAddNote note: String)
 }
 
-// TODO: - Create the other files
 internal class AddNoteViewController: UIViewController {
     
     @IBOutlet weak var textView: UITextView!
@@ -33,7 +32,7 @@ internal class AddNoteViewController: UIViewController {
     
     @IBAction func didTapAddButton(_ sender: UIButton) {
         addNoteWrapper.isPresented = false
-        addNoteWrapper.list.append(textView.text)
+        addNoteWrapper.didAddNewNote = textView.text
     }
 }
 

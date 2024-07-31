@@ -15,14 +15,7 @@ struct ListItem {
 // TODO: - You can refactor this if needed :)
 class AddNoteWrapper: ObservableObject {
     @Published var isPresented: Bool = false
-    @Published var list: [String] = [
-        "Complete daily workout",
-        "Write in journal",
-        "Meditate for 10 minutes",
-        "Read 20 pages of a book",
-        "Drink 8 glasses of water"
-    ]
-    // Add other properties as needed
+    @Published var didAddNewNote: String?
 }
 
 struct ContentView: View {
