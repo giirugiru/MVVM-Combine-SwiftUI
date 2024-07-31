@@ -9,6 +9,7 @@
 - Xcode 12.0+
 - Swift 5.3+
 - XcodeGen
+- Cocoapods
 
 ### Installation
 
@@ -31,6 +32,9 @@
 - Combine: For managing state and data flow.
 - MVVM: Model-View-ViewModel architecture for separation of concerns.
 - XcodeGen: For generating and managing the Xcode project configuration.
+
+### Third party
+- Netfox: For network logging
 
 ### Contribution
 Feel free to submit pull requests or open issues to help improve the project.
