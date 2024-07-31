@@ -24,7 +24,7 @@ internal class NoteListViewController: UIViewController {
     // MARK: - Publisher
     private let didLoadPublisher = PassthroughSubject<Void, Never>()
     private let didTapReminderButtonPublisher = PassthroughSubject<Void, Never>()
-    private let didCompleteNote = PassthroughSubject<SaveRequest, Never>()
+    private let didMarkNote = PassthroughSubject<MarkRequest, Never>()
     private let didDeleteNote = PassthroughSubject<String, Never>()
     private let didAddNewNote = PassthroughSubject<String, Never>()
     
@@ -71,7 +71,7 @@ internal class NoteListViewController: UIViewController {
             didLoad: didLoadPublisher, 
             didTapAddReminderButton: didTapReminderButtonPublisher, 
             didDeleteNote: didDeleteNote,
-            didCompleteNote: didCompleteNote,
+            didMarkNote: didMarkNote,
             didAddNewNote: didAddNewNote
         )
         
@@ -104,6 +104,7 @@ internal class NoteListViewController: UIViewController {
     internal func bindEnvironmentObject() {
         addNoteWrapper.$didAddNewNote.sink { [weak self] title in
             guard let self = self, let title = title else { return }
+            // TODO: - Handle ID in here
             noteList.append(.init(id: "\(UUID())", title: title, todoCount: 0, completed: false))
             didAddNewNote.send(title)
             tableView.reloadData()
@@ -164,6 +165,6 @@ extension NoteListViewController: UITableViewDelegate, UITableViewDataSource {
 extension NoteListViewController {
     func completeNote(indexPath: IndexPath, isCompleted: Bool) {
         noteList[indexPath.row].completed = isCompleted
-        didCompleteNote.send(.init(id: noteList[indexPath.row].id, isCompleted: isCompleted))
+        didMarkNote.send(.init(id: noteList[indexPath.row].id, isCompleted: isCompleted))
     }
 }

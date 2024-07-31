@@ -23,7 +23,7 @@ internal final class NoteListViewModel {
         let didLoad: PassthroughSubject<Void, Never>
         let didTapAddReminderButton: PassthroughSubject<Void, Never>
         let didDeleteNote: PassthroughSubject<String, Never> // Pass id
-        let didCompleteNote: PassthroughSubject<SaveRequest, Never>
+        let didMarkNote: PassthroughSubject<MarkRequest, Never>
         let didAddNewNote: PassthroughSubject<String, Never> // Pass title
     }
     
@@ -79,7 +79,7 @@ internal final class NoteListViewModel {
             .store(in: &cancellables)
         
         // TODO: - Add some PUT here
-//        input.didCompleteNote
+//        input.didMarkNote
 //            .receive(on: DispatchQueue.global())
 //            .flatMap({ request in
 //                

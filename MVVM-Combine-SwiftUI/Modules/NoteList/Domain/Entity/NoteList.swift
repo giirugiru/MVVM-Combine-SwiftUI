@@ -15,7 +15,7 @@ internal struct NoteListModel: Equatable {
 }
 
 // TODO: - Refactor this
-struct SaveRequest {
+struct MarkRequest {
     var id: String
     var isCompleted: Bool
 }
