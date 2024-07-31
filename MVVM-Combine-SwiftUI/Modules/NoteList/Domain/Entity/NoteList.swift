@@ -11,5 +11,12 @@ internal struct NoteListModel: Equatable {
     let id: String
     let title: String
     let todoCount: Int
-    let completed: Bool
+    var completed: Bool
 }
+
+// TODO: - Refactor this
+struct MarkRequest {
+    var id: String
+    var isCompleted: Bool
+}
+

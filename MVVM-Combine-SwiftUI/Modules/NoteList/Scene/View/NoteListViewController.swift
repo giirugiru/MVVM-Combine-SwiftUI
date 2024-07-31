@@ -16,23 +16,17 @@ internal class NoteListViewController: UIViewController {
     
     @Published internal var addNoteWrapper: AddNoteWrapper = .init()
     
-    private var count: Int = 0
-    
     @IBOutlet weak var tableView: UITableView!
     
-    var stringArray: [String] = [
-        "Complete daily workout",
-        "Write in journal",
-        "Meditate for 10 minutes",
-        "Read 20 pages of a book",
-        "Drink 8 glasses of water"
-    ]
+    var noteList: [NoteListModel] = []
     // To maintain the strikethrough
-    var strikeThroughDictionary: [IndexPath: Bool] = [:]
     
     // MARK: - Publisher
     private let didLoadPublisher = PassthroughSubject<Void, Never>()
     private let didTapReminderButtonPublisher = PassthroughSubject<Void, Never>()
+    private let didMarkNote = PassthroughSubject<MarkRequest, Never>()
+    private let didDeleteNote = PassthroughSubject<String, Never>()
+    private let didAddNewNote = PassthroughSubject<String, Never>()
     
     // MARK: - Initialization Method
     static func create(
@@ -75,7 +69,10 @@ internal class NoteListViewController: UIViewController {
     private func bindViewModel() {
         let input = NoteListViewModel.Input(
             didLoad: didLoadPublisher, 
-            didTapAddReminderButton: didTapReminderButtonPublisher
+            didTapAddReminderButton: didTapReminderButtonPublisher, 
+            didDeleteNote: didDeleteNote,
+            didMarkNote: didMarkNote,
+            didAddNewNote: didAddNewNote
         )
         
         viewModel.bind(input)
@@ -86,13 +83,14 @@ internal class NoteListViewController: UIViewController {
         viewModel.output.$result
             .receive(on: DispatchQueue.main)
             .sink { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .failed(let reason):
                     // TODO: Error Handle UI
                     print("TODO: Failed \(reason)")
                 case .success(let data):
-                    // TODO: Integrate to view UI
-                    print("TODO: Integrate to view UI \(data)")
+                    self.noteList = data
+                    self.tableView.reloadData()
                 case .loading:
                     // TODO: Handle loading UI
                     print("TODO: Handle loading UI")
@@ -103,41 +101,43 @@ internal class NoteListViewController: UIViewController {
             .store(in: &cancellables)
     }
     
-    // TODO: - I think this could be further improved :)
     internal func bindEnvironmentObject() {
-        addNoteWrapper.$list.sink { [weak self] list in
-            guard let self = self else { return }
-            self.stringArray = list
-            self.tableView.reloadData()
+        addNoteWrapper.$didAddNewNote.sink { [weak self] title in
+            guard let self = self, let title = title else { return }
+            // TODO: - Handle ID in here
+            noteList.append(.init(id: "\(UUID())", title: title, todoCount: 0, completed: false))
+            didAddNewNote.send(title)
+            tableView.reloadData()
         }.store(in: &cancellables)
     }
     
     @IBAction func didTapNewReminderButton(_ sender: UIButton) {
         addNoteWrapper.isPresented = true
         // TODO: - Fix this logic?
-         didTapReminderButtonPublisher.send()
-    }
-    
-    @objc
-    private func didTapped() {
-        // TODO: - Integrate this logic later
-//        debugPrint("Hello im tapped!")
-//        count += 1
-//        nameLabel.text = "Tapped \(count) times"
-//        didLoadPublisher.send()
+        // didTapReminderButtonPublisher.send()
     }
 }
 
 extension NoteListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return stringArray.count
+        return noteList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NoteListTableViewCell", for: indexPath) as! NoteListTableViewCell
-        let text = stringArray[indexPath.row]
-        cell.setText(text: text)
+        let note = noteList[indexPath.row]
+        cell.setText(text: note.title)
+
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+         if noteList[indexPath.row].completed {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+         } else {
+             tableView.deselectRow(at: indexPath, animated: false)
+         }
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -146,17 +146,25 @@ extension NoteListViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if (editingStyle == .delete) {
-            stringArray.remove(at: indexPath.row)
-            addNoteWrapper.list.remove(at: indexPath.row)
+            noteList.remove(at: indexPath.row)
+            didDeleteNote.send(noteList[indexPath.row].id)
+            tableView.reloadData()
         }
     }
     
-    // TODO: - Find a way to permanently set strike through
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // strikeThroughDictionary[indexPath.row] = true
+        completeNote(indexPath: indexPath, isCompleted: true)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        // strikeThroughDictionary[indexPath.row] = false
+        completeNote(indexPath: indexPath, isCompleted: false)
+    }
+}
+
+// Helpers
+extension NoteListViewController {
+    func completeNote(indexPath: IndexPath, isCompleted: Bool) {
+        noteList[indexPath.row].completed = isCompleted
+        didMarkNote.send(.init(id: noteList[indexPath.row].id, isCompleted: isCompleted))
     }
 }

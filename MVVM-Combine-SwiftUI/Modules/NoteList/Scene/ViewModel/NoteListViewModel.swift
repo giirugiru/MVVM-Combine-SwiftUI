@@ -22,6 +22,9 @@ internal final class NoteListViewModel {
     struct Input {
         let didLoad: PassthroughSubject<Void, Never>
         let didTapAddReminderButton: PassthroughSubject<Void, Never>
+        let didDeleteNote: PassthroughSubject<String, Never> // Pass id
+        let didMarkNote: PassthroughSubject<MarkRequest, Never>
+        let didAddNewNote: PassthroughSubject<String, Never> // Pass title
     }
     
     class Output {
@@ -74,6 +77,62 @@ internal final class NoteListViewModel {
                 self.coordinator.routeToAddNote()
             }
             .store(in: &cancellables)
-            
+        
+        // TODO: - Add some PUT here
+//        input.didMarkNote
+//            .receive(on: DispatchQueue.global())
+//            .flatMap({ request in
+//                
+//            })
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] result in
+//                guard let self else { return }
+//                switch result {
+//                case .success(let model):
+//                    self.item = model
+//                    self.output.result = .success(data: model ?? [])
+//                case .failure(let error):
+//                    self.output.result = .failed(reason: error)
+//                }
+//            }
+//            .store(in: &cancellables)
+        
+        // TODO: - Add some DELETE here
+//        input.didDeleteNote
+//            .receive(on: DispatchQueue.global())
+//            .flatMap({ request in
+//                
+//            })
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] result in
+//                guard let self else { return }
+//                switch result {
+//                case .success(let model):
+//                    self.item = model
+//                    self.output.result = .success(data: model ?? [])
+//                case .failure(let error):
+//                    self.output.result = .failed(reason: error)
+//                }
+//            }
+//            .store(in: &cancellables)
+        
+        // TODO: - Add some POST here
+//        input.didAddNewNote
+//            .receive(on: DispatchQueue.global())
+//            .flatMap({ request in
+//                
+//            })
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] result in
+//                guard let self else { return }
+//                switch result {
+//                case .success(let model):
+//                    self.item = model
+//                    self.output.result = .success(data: model ?? [])
+//                case .failure(let error):
+//                    self.output.result = .failed(reason: error)
+//                }
+//            }
+//            .store(in: &cancellables)
     }
 }
