@@ -9,7 +9,7 @@ import Foundation
 import Combine
 
 internal protocol NoteListRepository {
-    func fetch() -> AnyPublisher<NoteListModel, Error>
+    func fetch() -> AnyPublisher<[NoteListModel]?, NetworkError>
 }
 
 internal final class DefaultNoteListRepository: NoteListRepository {
@@ -19,21 +19,14 @@ internal final class DefaultNoteListRepository: NoteListRepository {
     
     init() { }
     
-    func fetch() -> AnyPublisher<NoteListModel, Error> {
+    func fetch() -> AnyPublisher<[NoteListModel]?, NetworkError> {
         let service = NoteListService.fetchNoteList()
-        let request = network.makeRequest(service)
-        
-        return request.tryMap { data in
-            do {
-                let result = try self.decoder.decode(NoteListResponseDTO.self, from: data)
-                return result.toDomain()
-            } catch {
-                throw error
+        let request = network.makeRequest(service, output: [NoteListResponseDTO].self)
+
+        return request.map { response in
+            response.payload.map { list in
+                list.compactMap { $0.toDomain() }
             }
-        }
-        .mapError { error in
-            return error
-        }
-        .eraseToAnyPublisher()
+        }.eraseToAnyPublisher()
     }
 }

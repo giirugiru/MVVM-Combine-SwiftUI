@@ -10,7 +10,7 @@ import Foundation
 internal struct NoteListService {
     
     static func fetchNoteList() -> APIService {
-        let path = "/todos/1"
+        let path = "/todo/list"
         
         return APIService(
             method: .GET,

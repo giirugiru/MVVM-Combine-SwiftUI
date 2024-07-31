@@ -8,6 +8,15 @@
 import Foundation
 import Combine
 
+enum NetworkError: Error {
+    case invalidURL
+    case invalidResponse
+    case noData
+    case invalidParameters
+    case errorResponse(error: ResponseError)
+    case genericError(error: Error)
+}
+
 public class NetworkManager {
     
     static let shared = NetworkManager()
@@ -27,16 +36,8 @@ public class NetworkManager {
         case url
         case json
     }
-    
-    enum NetworkError: Error {
-        case invalidURL
-        case invalidResponse
-        case noData
-        case invalidParameters
-    }
-    
-    func makeRequest(_ request: APIService
-    ) -> AnyPublisher<Data, Error> {
+
+    func makeRequest<T: Decodable>(_ request: APIService, output: T.Type) -> AnyPublisher<BaseResponse<T>, NetworkError> {
         var urlString = request.baseURL + request.path
         
         if request.method == .GET, let parameters = request.params, request.parameterEncoding == .url {
@@ -62,7 +63,7 @@ public class NetworkManager {
                     urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                 }
             } catch let error {
-                return Fail(error: error).eraseToAnyPublisher()
+                return Fail(error: NetworkError.invalidParameters).eraseToAnyPublisher()
             }
         }
         
@@ -71,9 +72,15 @@ public class NetworkManager {
                 guard let httpResponse = output.response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                     throw NetworkError.invalidResponse
                 }
-                return output.data
+
+                let decoder = JSONDecoder()
+                let response = try decoder.decode(BaseResponse<T>.self, from: output.data)
+
+                return response
             }
-            .mapError { $0 as Error }
+            .mapError {
+                NetworkError.genericError(error: $0)
+            }
             .eraseToAnyPublisher()
     }
     

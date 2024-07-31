@@ -9,6 +9,11 @@ target 'MVVM-Combine-SwiftUI' do
   pod 'netfox'
 end
 
+target 'MVVM-Combine-SwiftUI-Tests' do
+  use_frameworks!
+end
+
+
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|

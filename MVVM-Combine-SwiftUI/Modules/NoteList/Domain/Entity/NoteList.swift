@@ -8,5 +8,8 @@
 import Foundation
 
 internal struct NoteListModel: Equatable {
+    let id: String
     let title: String
+    let todoCount: Int
+    let completed: Bool
 }

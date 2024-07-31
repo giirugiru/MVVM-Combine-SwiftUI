@@ -14,8 +14,22 @@ targets:
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.example.MVVM-Combine-SwiftUI
       INFOPLIST_FILE: MVVM-Combine-SwiftUI/Info.plist
+  MVVM-Combine-SwiftUI-Tests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [MVVM-Combine-SwiftUI-Tests]
+    dependencies:
+      - target: MVVM-Combine-SwiftUI
+    settings:
+      base:
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/MVVM-Combine-SwiftUI.app/MVVM-Combine-SwiftUI"
+        BUNDLE_LOADER: "$(TEST_HOST)"
 schemes:
   MVVM-Combine-SwiftUI:
     build:
       targets:
         MVVM-Combine-SwiftUI: all
+        MVVM-Combine-SwiftUI-Tests: all
+    test:
+        targets:
+        - name: MVVM-Combine-SwiftUI-Tests
