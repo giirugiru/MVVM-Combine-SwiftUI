@@ -1,0 +1,19 @@
+{
+    "errors": null,
+    "timeStamp": "2024-06-08T08:24:42.282368200",
+    "success": true,
+    "payload": [
+        {
+            "id": "1219c34b-811f-44ab-a23a-c808cca6fd23",
+            "title": "Financial Checklist",
+            "todoCount": 3,
+            "completed": false
+        },
+        {
+            "id": "f11f696d-65b2-4fd1-9530-845793b9dae2",
+            "title": "Shopping List",
+            "todoCount": 4,
+            "completed": true
+        }
+    ]
+}

@@ -33,3 +33,4 @@ schemes:
     test:
         targets:
         - name: MVVM-Combine-SwiftUI-Tests
+        gatherCoverageData: true
