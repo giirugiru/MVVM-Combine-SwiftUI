@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SVProgressHUD
 
 internal class NoteListViewController: UIViewController {
     
@@ -88,12 +89,13 @@ internal class NoteListViewController: UIViewController {
                 case .failed(let reason):
                     // TODO: Error Handle UI
                     print("TODO: Failed \(reason)")
+                    SVProgressHUD.dismiss()
                 case .success(let data):
                     self.noteList = data
                     self.tableView.reloadData()
+                    SVProgressHUD.dismiss()
                 case .loading:
-                    // TODO: Handle loading UI
-                    print("TODO: Handle loading UI")
+                    SVProgressHUD.show()
                 default:
                     return
                 }
