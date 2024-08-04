@@ -44,7 +44,7 @@ internal final class NoteListViewModel {
         self.coordinator = coordinator
         self.useCase = useCase
     }
-    
+
     // MARK: - Functions
     func bind(_ input: Input) {
         output.result = .loading
