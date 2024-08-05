@@ -7,10 +7,10 @@
 
 import Foundation
 
-public enum DataState<T>: Equatable {
+enum DataState<T>: Equatable {
     case initiate
     case loading
-    case failed(reason: Error)
+    case failed(reason: NetworkError)
     case inProgress(progress: Double)
     case success(data: T)
 

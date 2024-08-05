@@ -15,6 +15,15 @@ enum NetworkError: Error {
     case invalidParameters
     case errorResponse(error: ResponseError)
     case genericError(error: Error)
+
+    var errorMessage: String {
+        switch self {
+        case .errorResponse(let error):
+            return error.message ?? ""
+        default:
+            return ""
+        }
+    }
 }
 
 public class NetworkManager {
@@ -62,24 +71,32 @@ public class NetworkManager {
                     urlRequest.httpBody = encodedParameters.data(using: .utf8)
                     urlRequest.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
                 }
-            } catch let error {
+            } catch {
                 return Fail(error: NetworkError.invalidParameters).eraseToAnyPublisher()
             }
         }
         
         return session.dataTaskPublisher(for: urlRequest)
             .tryMap { output in
-                guard let httpResponse = output.response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
-                    throw NetworkError.invalidResponse
-                }
-
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(BaseResponse<T>.self, from: output.data)
 
+                guard let httpResponse = output.response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
+                    if let error = response.errors {
+                        throw NetworkError.errorResponse(error: error)
+                    }
+                    throw NetworkError.noData
+                }
+                print("aselole network \(response)")
+
                 return response
             }
-            .mapError {
-                NetworkError.genericError(error: $0)
+            .mapError { error in
+                if let networkError = error as? NetworkError {
+                    return networkError
+                } else {
+                    return NetworkError.genericError(error: error)
+                }
             }
             .eraseToAnyPublisher()
     }

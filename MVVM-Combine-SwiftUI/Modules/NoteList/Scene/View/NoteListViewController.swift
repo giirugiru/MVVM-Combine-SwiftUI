@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import SVProgressHUD
 
 internal class NoteListViewController: UIViewController {
     
@@ -17,6 +18,8 @@ internal class NoteListViewController: UIViewController {
     @Published internal var addNoteWrapper: AddNoteWrapper = .init()
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var lblErrorMessage: UILabel!
+    @IBOutlet weak var viewError: UIView!
     
     var noteList: [NoteListModel] = []
     // To maintain the strikethrough
@@ -63,6 +66,7 @@ internal class NoteListViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib(nibName: "NoteListTableViewCellXIB", bundle: nil), forCellReuseIdentifier: "NoteListTableViewCell")
+        viewError.isHidden = true
     }
 
     // MARK: - Bind View Model
@@ -86,14 +90,16 @@ internal class NoteListViewController: UIViewController {
                 guard let self = self else { return }
                 switch result {
                 case .failed(let reason):
-                    // TODO: Error Handle UI
-                    print("TODO: Failed \(reason)")
+                    lblErrorMessage.text = reason.errorMessage
+                    SVProgressHUD.dismiss()
+                    viewError.isHidden = false
                 case .success(let data):
                     self.noteList = data
                     self.tableView.reloadData()
+                    SVProgressHUD.dismiss()
                 case .loading:
-                    // TODO: Handle loading UI
-                    print("TODO: Handle loading UI")
+                    SVProgressHUD.show()
+                    viewError.isHidden = true
                 default:
                     return
                 }
@@ -115,6 +121,11 @@ internal class NoteListViewController: UIViewController {
         addNoteWrapper.isPresented = true
         // TODO: - Fix this logic?
         // didTapReminderButtonPublisher.send()
+    }
+
+    @IBAction func didTapRetry(_ sender: Any) {
+        viewModel.output.result = .loading
+        didLoadPublisher.send()
     }
 }
 
