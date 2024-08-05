@@ -7,7 +7,6 @@
 
 import UIKit
 import Combine
-import SVProgressHUD
 
 internal class NoteListViewController: UIViewController {
     
@@ -20,14 +19,16 @@ internal class NoteListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var lblErrorMessage: UILabel!
     @IBOutlet weak var viewError: UIView!
+    private var toast: LoadingToast?
+    private let refreshControl = UIRefreshControl()
     
-    var noteList: [NoteListModel] = []
     // To maintain the strikethrough
+    private var noteList: [NoteListModel] = []
     
     // MARK: - Publisher
     private let didLoadPublisher = PassthroughSubject<Void, Never>()
     private let didTapReminderButtonPublisher = PassthroughSubject<Void, Never>()
-    private let didMarkNote = PassthroughSubject<MarkRequest, Never>()
+    private let didMarkNote = PassthroughSubject<MarkRequestModel, Never>()
     private let didDeleteNote = PassthroughSubject<String, Never>()
     private let didAddNewNote = PassthroughSubject<String, Never>()
     
@@ -41,7 +42,7 @@ internal class NoteListViewController: UIViewController {
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: "NoteListViewControllerXIB", bundle: nil)
+        super.init(nibName: NoteListViewController.nibName(), bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -65,7 +66,13 @@ internal class NoteListViewController: UIViewController {
         // Configure tableView
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(UINib(nibName: "NoteListTableViewCellXIB", bundle: nil), forCellReuseIdentifier: "NoteListTableViewCell")
+        tableView.register(
+            UINib(nibName: NoteListTableViewCell.nibName(), bundle: nil),
+            forCellReuseIdentifier: NoteListTableViewCell.cellIdentifier
+        )
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        tableView.refreshControl = refreshControl
+        
         viewError.isHidden = true
     }
 
@@ -90,16 +97,22 @@ internal class NoteListViewController: UIViewController {
                 guard let self = self else { return }
                 switch result {
                 case .failed(let reason):
-                    lblErrorMessage.text = reason.errorMessage
-                    SVProgressHUD.dismiss()
-                    viewError.isHidden = false
+                    self.lblErrorMessage.text = reason.errorMessage
+                    
+                    self.toast?.hide()
+                    self.refreshControl.endRefreshing()
+                    self.viewError.isHidden = false
                 case .success(let data):
                     self.noteList = data
                     self.tableView.reloadData()
-                    SVProgressHUD.dismiss()
+                    
+                    self.toast?.hide()
+                    self.refreshControl.endRefreshing()
+                    self.viewError.isHidden = true
                 case .loading:
-                    SVProgressHUD.show()
-                    viewError.isHidden = true
+                    self.toast = LoadingToast()
+                    self.toast?.show(in: self.view)
+                    self.viewError.isHidden = true
                 default:
                     return
                 }
@@ -127,6 +140,12 @@ internal class NoteListViewController: UIViewController {
         viewModel.output.result = .loading
         didLoadPublisher.send()
     }
+    
+    @objc 
+    private func refresh() {
+        viewError.isHidden = true
+        didLoadPublisher.send()
+    }
 }
 
 extension NoteListViewController: UITableViewDelegate, UITableViewDataSource {
@@ -135,7 +154,7 @@ extension NoteListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NoteListTableViewCell", for: indexPath) as! NoteListTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: NoteListTableViewCell.cellIdentifier, for: indexPath) as! NoteListTableViewCell
         let note = noteList[indexPath.row]
         cell.setText(text: note.title)
 

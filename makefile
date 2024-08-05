@@ -1,4 +1,4 @@
 generate_project:
-	pod install --verbose
 	xcodegen generate
+	pod install --verbose
 	open MVVM-Combine-SwiftUI.xcworkspace

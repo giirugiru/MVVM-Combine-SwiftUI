@@ -8,8 +8,8 @@
 import UIKit
 
 class NoteListTableViewCell: UITableViewCell {
-
-    var originalText: String = ""
+    
+    private var originalText: String = ""
 
     @IBOutlet weak var noteListLabel: UILabel!
     @IBOutlet weak var checkImageView: UIImageView!

@@ -8,5 +8,5 @@
 import Foundation
 
 internal struct NoteListRequestDTO: Encodable {
-    
+    // ini param untuk post
 }
