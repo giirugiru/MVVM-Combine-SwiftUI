@@ -23,7 +23,7 @@ internal final class NoteListViewModel {
         let didLoad: PassthroughSubject<Void, Never>
         let didTapAddReminderButton: PassthroughSubject<Void, Never>
         let didDeleteNote: PassthroughSubject<String, Never> // Pass id
-        let didMarkNote: PassthroughSubject<MarkRequest, Never>
+        let didMarkNote: PassthroughSubject<MarkRequestModel, Never>
         let didAddNewNote: PassthroughSubject<String, Never> // Pass title
     }
     

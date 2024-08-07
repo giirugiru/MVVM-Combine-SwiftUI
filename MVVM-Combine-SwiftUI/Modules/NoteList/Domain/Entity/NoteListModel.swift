@@ -1,5 +1,5 @@
 //
-//  NoteList.swift
+//  NoteListModel.swift
 //  MVVM-Combine-SwiftUI
 //
 //  Created by Gilang Sinawang on 22/07/24.
@@ -13,10 +13,3 @@ internal struct NoteListModel: Equatable {
     let todoCount: Int
     var completed: Bool
 }
-
-// TODO: - Refactor this
-struct MarkRequest {
-    var id: String
-    var isCompleted: Bool
-}
-

@@ -19,7 +19,7 @@ internal class AddNoteViewController: UIViewController {
     @Published internal var addNoteWrapper: AddNoteWrapper = .init()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: "AddNoteViewControllerXIB", bundle: nil)
+        super.init(nibName: AddNoteViewController.nibName(), bundle: nil)
     }
     
     required init?(coder: NSCoder) {

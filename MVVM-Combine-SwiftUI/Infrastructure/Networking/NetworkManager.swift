@@ -8,24 +8,6 @@
 import Foundation
 import Combine
 
-enum NetworkError: Error {
-    case invalidURL
-    case invalidResponse
-    case noData
-    case invalidParameters
-    case errorResponse(error: ResponseError)
-    case genericError(error: Error)
-
-    var errorMessage: String {
-        switch self {
-        case .errorResponse(let error):
-            return error.message ?? ""
-        default:
-            return ""
-        }
-    }
-}
-
 public class NetworkManager {
     
     static let shared = NetworkManager()
