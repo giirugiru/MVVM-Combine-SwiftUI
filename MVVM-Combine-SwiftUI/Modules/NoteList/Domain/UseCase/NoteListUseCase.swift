@@ -10,6 +10,8 @@ import Combine
 
 internal protocol NoteListUseCase {
     func fetch() -> AnyPublisher<[NoteListModel]?, NetworkError>
+    func save(param: NoteListParameter) -> AnyPublisher<EmptyResponse, NetworkError>
+    func update(param: UpdateNoteParameter) -> AnyPublisher<EmptyResponse, NetworkError>
 }
 
 internal final class DefaultNoteListUseCase: NoteListUseCase {
@@ -25,4 +27,11 @@ internal final class DefaultNoteListUseCase: NoteListUseCase {
         repository.fetch()
     }
     
+    func save(param: NoteListParameter) -> AnyPublisher<EmptyResponse, NetworkError> {
+        repository.save(param: param.toRequest())
+    }
+    
+    func update(param: UpdateNoteParameter) -> AnyPublisher<EmptyResponse, NetworkError> {
+        repository.update(param: param.toRequest())
+    }
 }

@@ -8,8 +8,12 @@
 import Foundation
 import Combine
 
+struct EmptyResponse: Decodable { }
+
 internal protocol NoteListRepository {
     func fetch() -> AnyPublisher<[NoteListModel]?, NetworkError>
+    func save(param: NoteListRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError>
+    func update(param: UpdateNoteRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError>
 }
 
 internal final class DefaultNoteListRepository: NoteListRepository {
@@ -28,5 +32,19 @@ internal final class DefaultNoteListRepository: NoteListRepository {
                 list.compactMap { $0.toDomain() }
             }
         }.eraseToAnyPublisher()
+    }
+    
+    func save(param: NoteListRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError> {
+        #warning("TODO: Implement save")
+        return Just(.init())
+            .setFailureType(to: NetworkError.self)
+            .eraseToAnyPublisher()
+    }
+    
+    func update(param: UpdateNoteRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError> {
+        #warning("TODO: Implement update")
+        return Just(.init())
+            .setFailureType(to: NetworkError.self)
+            .eraseToAnyPublisher()
     }
 }

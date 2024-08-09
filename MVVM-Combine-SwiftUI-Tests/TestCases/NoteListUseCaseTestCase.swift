@@ -41,6 +41,20 @@ final class NoteListUseCaseTestCase: XCTestCase {
 }
 
 struct NoteListRepositoryStub: NoteListRepository {
+    func update(param: UpdateNoteRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError> {
+        #warning("Implement this later (or not)")
+        return Just(.init())
+            .setFailureType(to: NetworkError.self)
+            .eraseToAnyPublisher()
+    }
+    
+    func save(param: NoteListRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError> {
+        #warning("Implement this later (or not)")
+        return Just(.init())
+        .setFailureType(to: NetworkError.self)
+        .eraseToAnyPublisher()
+    }
+    
     func fetch() -> AnyPublisher<[NoteListModel]?, NetworkError> {
         guard let response: BaseResponse = GetFile<BaseResponse<[NoteListResponseDTO]>>().load(fileName: "ListResponse") else {
             return Just<[NoteListModel]?>(nil)

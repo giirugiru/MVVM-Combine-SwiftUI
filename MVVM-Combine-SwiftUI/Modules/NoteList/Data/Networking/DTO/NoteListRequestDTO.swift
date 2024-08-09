@@ -8,5 +8,7 @@
 import Foundation
 
 internal struct NoteListRequestDTO: Encodable {
-    // ini param untuk post
+    let id: String
+    let title: String
+    let todoCount: Int
 }
