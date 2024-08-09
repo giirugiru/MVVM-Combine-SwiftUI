@@ -79,23 +79,29 @@ internal final class NoteListViewModel {
             .store(in: &cancellables)
         
         // TODO: - Add some PUT here
-//        input.didMarkNote
-//            .receive(on: DispatchQueue.global())
-//            .flatMap({ request in
-//                
-//            })
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] result in
-//                guard let self else { return }
-//                switch result {
-//                case .success(let model):
-//                    self.item = model
-//                    self.output.result = .success(data: model ?? [])
-//                case .failure(let error):
-//                    self.output.result = .failed(reason: error)
-//                }
-//            }
-//            .store(in: &cancellables)
+        input.didMarkNote
+            .receive(on: DispatchQueue.global())
+            .flatMap({ request in
+                return self.useCase.update(
+                    param: .init(
+                        id: request.id,
+                        completed: request.isCompleted
+                    ))
+                .map { Result.success($0) }
+                .catch { Just(Result.failure($0)) }
+                .eraseToAnyPublisher()
+            })
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] result in
+                guard let self else { return }
+                switch result {
+                case .success(let model):
+                    print("Success update!")
+                case .failure(let error):
+                    self.output.result = .failed(reason: error)
+                }
+            }
+            .store(in: &cancellables)
         
         // TODO: - Add some DELETE here
 //        input.didDeleteNote
@@ -117,22 +123,24 @@ internal final class NoteListViewModel {
 //            .store(in: &cancellables)
         
         // TODO: - Add some POST here
-//        input.didAddNewNote
-//            .receive(on: DispatchQueue.global())
-//            .flatMap({ request in
-//                
-//            })
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] result in
-//                guard let self else { return }
-//                switch result {
-//                case .success(let model):
-//                    self.item = model
-//                    self.output.result = .success(data: model ?? [])
-//                case .failure(let error):
-//                    self.output.result = .failed(reason: error)
-//                }
-//            }
-//            .store(in: &cancellables)
+        input.didAddNewNote
+            .receive(on: DispatchQueue.global())
+            .flatMap({ request in
+                return self.useCase.save(param: .init(title: request, todoCount: 0))
+                    .map { Result.success($0) }
+                    .catch { Just(Result.failure($0)) }
+                    .eraseToAnyPublisher()
+            })
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] result in
+                guard let self else { return }
+                switch result {
+                case .success:
+                    print("Success save!")
+                case .failure(let error):
+                    self.output.result = .failed(reason: error)
+                }
+            }
+            .store(in: &cancellables)
     }
 }

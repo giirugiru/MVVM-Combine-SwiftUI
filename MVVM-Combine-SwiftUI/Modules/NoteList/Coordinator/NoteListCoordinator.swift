@@ -56,7 +56,8 @@ public final class NoteListCoordinator {
     
     // Create Repository
     private func makeNoteListRepository() -> NoteListRepository {
-        return DefaultNoteListRepository()
+//        return DefaultNoteListRepository()
+        return LocalNoteListRepository()
     }
     
     // Starting Coordinator
