@@ -25,4 +25,3 @@ extension String {
         return attributeString
     }
 }
-

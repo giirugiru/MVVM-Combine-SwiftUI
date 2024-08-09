@@ -8,8 +8,8 @@
 import Foundation
 import SwiftData
 
-class SwiftDataContextManager {
-    static var shared = SwiftDataContextManager()
+public class SwiftDataContextManager {
+    public static var shared = SwiftDataContextManager()
     var container: ModelContainer?
     var context: ModelContext?
 
@@ -20,8 +20,7 @@ class SwiftDataContextManager {
                 context = ModelContext(container)
             }
         } catch {
-            print("Error initializing database container:", error)
-            // Consider throwing an error or providing a fallback mechanism here
+            debugPrint("Error initializing database container:", error)
         }
     }
 }
