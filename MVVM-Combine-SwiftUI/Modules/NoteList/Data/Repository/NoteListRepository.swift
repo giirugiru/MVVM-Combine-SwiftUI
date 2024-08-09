@@ -8,8 +8,6 @@
 import Foundation
 import Combine
 
-struct EmptyResponse: Decodable { }
-
 internal protocol NoteListRepository {
     func fetch() -> AnyPublisher<[NoteListModel]?, NetworkError>
     func save(param: NoteListRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError>
@@ -19,7 +17,6 @@ internal protocol NoteListRepository {
 internal final class DefaultNoteListRepository: NoteListRepository {
     
     private let network = NetworkManager.shared
-    private let decoder = CodableManager.shared
     
     init() { }
     
