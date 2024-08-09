@@ -132,8 +132,6 @@ internal class NoteListViewController: UIViewController {
     
     @IBAction func didTapNewReminderButton(_ sender: UIButton) {
         addNoteWrapper.isPresented = true
-        // TODO: - Fix this logic?
-        // didTapReminderButtonPublisher.send()
     }
 
     @IBAction func didTapRetry(_ sender: Any) {
@@ -156,7 +154,7 @@ extension NoteListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NoteListTableViewCell.cellIdentifier, for: indexPath) as! NoteListTableViewCell
         let note = noteList[indexPath.row]
-        cell.setText(text: note.title)
+        cell.setText(text: note.title, indexPath: indexPath, delegate: self)
 
         return cell
     }
@@ -166,20 +164,8 @@ extension NoteListViewController: UITableViewDelegate, UITableViewDataSource {
          if noteList[indexPath.row].completed {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
          } else {
-             tableView.deselectRow(at: indexPath, animated: false)
+            tableView.deselectRow(at: indexPath, animated: false)
          }
-    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == .delete) {
-            noteList.remove(at: indexPath.row)
-            didDeleteNote.send(noteList[indexPath.row].id)
-            tableView.reloadData()
-        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -196,5 +182,15 @@ extension NoteListViewController {
     func completeNote(indexPath: IndexPath, isCompleted: Bool) {
         noteList[indexPath.row].completed = isCompleted
         didMarkNote.send(.init(id: noteList[indexPath.row].id, isCompleted: isCompleted))
+    }
+}
+
+// MARK: - NoteListTableViewCellDelegate
+extension NoteListViewController: NoteListTableViewCellDelegate {
+    func didTapDeleteButton(at indexPath: IndexPath?) {
+        guard let indexPath = indexPath else { return }
+        didDeleteNote.send(noteList[indexPath.row].id)
+        noteList.remove(at: indexPath.row)
+        tableView.reloadData()
     }
 }
