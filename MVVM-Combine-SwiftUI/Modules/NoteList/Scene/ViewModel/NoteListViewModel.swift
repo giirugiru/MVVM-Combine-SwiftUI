@@ -95,7 +95,7 @@ internal final class NoteListViewModel {
             .sink { [weak self] result in
                 guard let self else { return }
                 switch result {
-                case .success(let model):
+                case .success:
                     debugPrint("Success update!")
                 case .failure(let error):
                     self.output.result = .failed(reason: error)
@@ -104,23 +104,25 @@ internal final class NoteListViewModel {
             .store(in: &cancellables)
         
         // TODO: - Add some DELETE here
-        //        input.didDeleteNote
-        //            .receive(on: DispatchQueue.global())
-        //            .flatMap({ request in
-        //
-        //            })
-        //            .receive(on: DispatchQueue.main)
-        //            .sink { [weak self] result in
-        //                guard let self else { return }
-        //                switch result {
-        //                case .success(let model):
-        //                    self.item = model
-        //                    self.output.result = .success(data: model ?? [])
-        //                case .failure(let error):
-        //                    self.output.result = .failed(reason: error)
-        //                }
-        //            }
-        //            .store(in: &cancellables)
+                input.didDeleteNote
+                    .receive(on: DispatchQueue.global())
+                    .flatMap({ request in
+                        return self.useCase.delete(id: request)
+                        .map { Result.success($0) }
+                        .catch { Just(Result.failure($0)) }
+                        .eraseToAnyPublisher()
+                    })
+                    .receive(on: DispatchQueue.main)
+                    .sink { [weak self] result in
+                        guard let self else { return }
+                        switch result {
+                        case .success:
+                            debugPrint("Success delete!")
+                        case .failure(let error):
+                            self.output.result = .failed(reason: error)
+                        }
+                    }
+                    .store(in: &cancellables)
         
         // TODO: - Add some POST here
         input.didAddNewNote

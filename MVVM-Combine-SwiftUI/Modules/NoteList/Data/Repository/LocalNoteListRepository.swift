@@ -58,25 +58,69 @@ internal final class LocalNoteListRepository: NoteListRepository {
     func update(param: UpdateNoteRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError> {
         return Future<EmptyResponse, NetworkError> { promise in
             Task { @MainActor in
+                let id = param.id
+                let fetchDescriptor = FetchDescriptor<NoteListLocalEntity>(
+                    predicate: #Predicate {
+                        $0.id == id
+                    }
+                )
+                
+                let result = Result {
+                    do {
+                        if let entity = try self.container?.mainContext.fetch(fetchDescriptor).first {
+                            entity.completed = param.completed
+                            try self.container?.mainContext.save()
+                            return EmptyResponse()
+                        } else {
+                            throw NetworkError.noData
+                        }
+                    } catch {
+                        throw error
+                    }
+                }
+                
+                switch result {
+                case .success(let response):
+                    promise(.success(response))
+                case .failure(let error):
+                    promise(.failure(.genericError(error: error)))
+                }
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    
+    func delete(id: String) -> AnyPublisher<EmptyResponse, NetworkError> {
+        return Future<EmptyResponse, NetworkError> { promise in
+            Task { @MainActor in
                 do {
-                    let id = param.id
                     let fetchDescriptor = FetchDescriptor<NoteListLocalEntity>(
                         predicate: #Predicate {
                             $0.id == id
                         }
                     )
                     
-                    if let entity = try self.container?.mainContext.fetch(fetchDescriptor).first {
-                        entity.completed = param.completed
-                        
-                        try self.container?.mainContext.save()
-                        
-                        promise(.success(EmptyResponse()))
-                    } else {
-                        promise(.failure(.noData))
+                    let result = Result {
+                        do {
+                            if let entity = try self.container?.mainContext.fetch(fetchDescriptor).first {
+                                self.container?.mainContext.delete(entity)
+                                try self.container?.mainContext.save()
+                                return EmptyResponse()
+                            } else {
+                                throw NetworkError.noData
+                            }
+                        } catch {
+                            throw error
+                        }
                     }
-                } catch {
-                    promise(.failure(.noData))
+                    
+                    switch result {
+                    case .success(let response):
+                        promise(.success(response))
+                    case .failure(let error):
+                        promise(.failure(.genericError(error: error)))
+                    }
                 }
             }
         }

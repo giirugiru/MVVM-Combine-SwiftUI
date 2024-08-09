@@ -41,6 +41,13 @@ final class NoteListUseCaseTestCase: XCTestCase {
 }
 
 struct NoteListRepositoryStub: NoteListRepository {
+    func delete(id: String) -> AnyPublisher<EmptyResponse, NetworkError> {
+        #warning("Implement this later (or not)")
+        return Just(.init())
+            .setFailureType(to: NetworkError.self)
+            .eraseToAnyPublisher()
+    }
+    
     func update(param: UpdateNoteRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError> {
         #warning("Implement this later (or not)")
         return Just(.init())

@@ -12,6 +12,7 @@ internal protocol NoteListUseCase {
     func fetch() -> AnyPublisher<[NoteListModel]?, NetworkError>
     func save(param: NoteListParameter) -> AnyPublisher<EmptyResponse, NetworkError>
     func update(param: UpdateNoteParameter) -> AnyPublisher<EmptyResponse, NetworkError>
+    func delete(id: String) -> AnyPublisher<EmptyResponse, NetworkError>
 }
 
 internal final class DefaultNoteListUseCase: NoteListUseCase {
@@ -33,5 +34,9 @@ internal final class DefaultNoteListUseCase: NoteListUseCase {
     
     func update(param: UpdateNoteParameter) -> AnyPublisher<EmptyResponse, NetworkError> {
         repository.update(param: param.toRequest())
+    }
+    
+    func delete(id: String) -> AnyPublisher<EmptyResponse, NetworkError> {
+        repository.delete(id: id)
     }
 }
