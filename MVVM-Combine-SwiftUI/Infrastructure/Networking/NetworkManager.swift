@@ -69,7 +69,7 @@ public class NetworkManager {
                     }
                     throw NetworkError.noData
                 }
-                print("aselole network \(response)")
+                debugPrint("aselole network \(response)")
 
                 return response
             }

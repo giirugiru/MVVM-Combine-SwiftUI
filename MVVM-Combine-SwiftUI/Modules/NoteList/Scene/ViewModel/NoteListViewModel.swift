@@ -44,7 +44,7 @@ internal final class NoteListViewModel {
         self.coordinator = coordinator
         self.useCase = useCase
     }
-
+    
     // MARK: - Functions
     func bind(_ input: Input) {
         output.result = .loading
@@ -96,7 +96,7 @@ internal final class NoteListViewModel {
                 guard let self else { return }
                 switch result {
                 case .success(let model):
-                    print("Success update!")
+                    debugPrint("Success update!")
                 case .failure(let error):
                     self.output.result = .failed(reason: error)
                 }
@@ -104,23 +104,23 @@ internal final class NoteListViewModel {
             .store(in: &cancellables)
         
         // TODO: - Add some DELETE here
-//        input.didDeleteNote
-//            .receive(on: DispatchQueue.global())
-//            .flatMap({ request in
-//                
-//            })
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] result in
-//                guard let self else { return }
-//                switch result {
-//                case .success(let model):
-//                    self.item = model
-//                    self.output.result = .success(data: model ?? [])
-//                case .failure(let error):
-//                    self.output.result = .failed(reason: error)
-//                }
-//            }
-//            .store(in: &cancellables)
+        //        input.didDeleteNote
+        //            .receive(on: DispatchQueue.global())
+        //            .flatMap({ request in
+        //
+        //            })
+        //            .receive(on: DispatchQueue.main)
+        //            .sink { [weak self] result in
+        //                guard let self else { return }
+        //                switch result {
+        //                case .success(let model):
+        //                    self.item = model
+        //                    self.output.result = .success(data: model ?? [])
+        //                case .failure(let error):
+        //                    self.output.result = .failed(reason: error)
+        //                }
+        //            }
+        //            .store(in: &cancellables)
         
         // TODO: - Add some POST here
         input.didAddNewNote
@@ -136,7 +136,7 @@ internal final class NoteListViewModel {
                 guard let self else { return }
                 switch result {
                 case .success:
-                    print("Success save!")
+                    debugPrint("Success save!")
                 case .failure(let error):
                     self.output.result = .failed(reason: error)
                 }

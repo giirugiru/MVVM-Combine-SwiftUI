@@ -124,7 +124,7 @@ internal class NoteListViewController: UIViewController {
         addNoteWrapper.$didAddNewNote.sink { [weak self] title in
             guard let self = self, let title = title else { return }
             // TODO: - Handle ID in here
-            noteList.append(.init(id: "\(UUID())", title: title, todoCount: 0, completed: false))
+            noteList.append(.init(id: UUID().uuidString, title: title, todoCount: 0, completed: false))
             didAddNewNote.send(title)
             tableView.reloadData()
         }.store(in: &cancellables)

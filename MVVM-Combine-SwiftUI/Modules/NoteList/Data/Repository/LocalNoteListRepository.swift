@@ -76,7 +76,7 @@ internal final class LocalNoteListRepository: NoteListRepository {
                         promise(.failure(.noData))
                     }
                 } catch {
-                    promise(.failure(.invalidResponse))
+                    promise(.failure(.noData))
                 }
             }
         }
