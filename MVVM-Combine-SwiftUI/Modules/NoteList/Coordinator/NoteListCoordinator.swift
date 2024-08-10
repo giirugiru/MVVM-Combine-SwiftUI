@@ -62,7 +62,8 @@ public final class NoteListCoordinator {
     
     // Starting Coordinator
     func route() {
-        
+        let vc = makeNoteListViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     func create() -> NoteListViewController {
