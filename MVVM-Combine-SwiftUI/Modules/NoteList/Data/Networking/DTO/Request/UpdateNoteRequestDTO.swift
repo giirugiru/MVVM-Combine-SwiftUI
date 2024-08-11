@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftData
 
 internal struct UpdateNoteRequestDTO: Encodable {
     let id: String
