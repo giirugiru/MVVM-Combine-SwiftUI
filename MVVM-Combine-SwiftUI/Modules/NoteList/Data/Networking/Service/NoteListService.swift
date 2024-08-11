@@ -8,7 +8,6 @@
 import Foundation
 
 internal struct NoteListService {
-    
     static func fetchNoteList() -> APIService {
         let path = "/todo/list"
         
@@ -17,6 +16,18 @@ internal struct NoteListService {
             path: path,
             headers: nil,
             params: nil,
+            parameterEncoding: .json
+        )
+    }
+
+    static func addNoteList(param: NoteListRequestDTO) -> APIService {
+        let path = "/todo/list/create"
+
+        return APIService(
+            method: .POST,
+            path: path,
+            headers: nil,
+            params: param.toDictionary(),
             parameterEncoding: .json
         )
     }

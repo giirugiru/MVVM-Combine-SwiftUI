@@ -18,9 +18,9 @@ enum NetworkError: Error {
     var errorMessage: String {
         switch self {
         case .errorResponse(let error):
-            return error.message ?? ""
+            return error.message ?? "We couldn't connect to our data. Please retry again and make sure internet connection is good."
         default:
-            return ""
+            return "We couldn't connect to our data. Please retry again and make sure internet connection is good."
         }
     }
 }

@@ -32,8 +32,8 @@ internal final class LocalNoteListRepository: NoteListRepository {
         .eraseToAnyPublisher()
     }
     
-    func save(param: NoteListRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError> {
-        return Future<EmptyResponse, NetworkError> { promise in
+    func save(param: NoteListRequestDTO) -> AnyPublisher<Bool, NetworkError> {
+        return Future<Bool, NetworkError> { promise in
             Task { @MainActor in
                 do {
                     let entity = NoteListLocalEntity(
@@ -46,7 +46,7 @@ internal final class LocalNoteListRepository: NoteListRepository {
                     
                     try self.container?.mainContext.save()
                     
-                    promise(.success(EmptyResponse()))
+                    promise(.success(true))
                 } catch {
                     promise(.failure(.noData))
                 }
