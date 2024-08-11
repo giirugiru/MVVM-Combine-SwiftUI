@@ -12,6 +12,7 @@ internal protocol NoteListRepository {
     func fetch() -> AnyPublisher<[NoteListModel]?, NetworkError>
     func save(param: NoteListRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError>
     func update(param: UpdateNoteRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError>
+    func delete(id: String) -> AnyPublisher<EmptyResponse, NetworkError>
 }
 
 internal final class DefaultNoteListRepository: NoteListRepository {
@@ -40,6 +41,13 @@ internal final class DefaultNoteListRepository: NoteListRepository {
     
     func update(param: UpdateNoteRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError> {
         #warning("TODO: Implement update")
+        return Just(.init())
+            .setFailureType(to: NetworkError.self)
+            .eraseToAnyPublisher()
+    }
+    
+    func delete(id: String) -> AnyPublisher<EmptyResponse, NetworkError> {
+        #warning("TODO: Implement delete")
         return Just(.init())
             .setFailureType(to: NetworkError.self)
             .eraseToAnyPublisher()
