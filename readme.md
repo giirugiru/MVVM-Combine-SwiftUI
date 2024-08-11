@@ -10,6 +10,8 @@
 - Swift 5.3+
 - XcodeGen
 - Cocoapods
+- Postman
+- Mockoon
 
 ### Installation
 
@@ -27,11 +29,16 @@
     make generate_project
    ```
 
+4. **Download API Collection here**
+    https://drive.google.com/drive/folders/1Ok3K9MnnRVgca7woV29ERyeVYM076at0?usp=sharing
+
 ### Technologies Used
 - SwiftUI: For building the user interface.
 - Combine: For managing state and data flow.
 - MVVM: Model-View-ViewModel architecture for separation of concerns.
 - XcodeGen: For generating and managing the Xcode project configuration.
+- Postman: For API documentation
+- Mockoon: For mocking API response
 
 ### Third party
 - Netfox: For network logging
