@@ -4,6 +4,10 @@ settings:
   CURRENT_PROJECT_VERSION: 1
 options:
   bundleIdPrefix: com.example
+packages:
+  netfox:
+    url: https://github.com/kasketis/netfox.git
+    from: 1.21.0
 targets:
   MVVM-Combine-SwiftUI:
     type: application
@@ -13,6 +17,8 @@ targets:
     settings:
       PRODUCT_BUNDLE_IDENTIFIER: com.example.MVVM-Combine-SwiftUI
       INFOPLIST_FILE: MVVM-Combine-SwiftUI/Info.plist
+    dependencies:
+        - package: netfox
   MVVM-Combine-SwiftUI-Tests:
     type: bundle.unit-test
     platform: iOS
