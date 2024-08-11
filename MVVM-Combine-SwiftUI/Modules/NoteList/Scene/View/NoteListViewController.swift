@@ -99,20 +99,43 @@ internal class NoteListViewController: UIViewController {
                 case .failed(let reason):
                     self.lblErrorMessage.text = reason.errorMessage
                     
-                    self.toast?.hide()
+                    hideLoading()
                     self.refreshControl.endRefreshing()
                     self.viewError.isHidden = false
                 case .success(let data):
                     self.noteList = data
                     self.tableView.reloadData()
                     
-                    self.toast?.hide()
+                    hideLoading()
                     self.refreshControl.endRefreshing()
                     self.viewError.isHidden = true
                 case .loading:
-                    self.toast = LoadingToast()
-                    self.toast?.show(in: self.view)
-                    self.viewError.isHidden = true
+                    showLoading()
+                default:
+                    return
+                }
+            }
+            .store(in: &cancellables)
+
+        viewModel.output.$addNote
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .failed(let reason):
+                    hideLoading()
+                    let alertController = UIAlertController(title: "Failed Add Note", message: reason.errorMessage, preferredStyle: .alert)
+                    let okAction = UIAlertAction(title: "OK", style: .default, handler: { [weak self] _ in
+                        self?.viewModel.output.result = .loading
+                        self?.didLoadPublisher.send()
+                        alertController.dismiss(animated: true)
+                    })
+                    alertController.addAction(okAction)
+                    present(alertController, animated: true)
+                case .success(let data):
+                    hideLoading()
+                case .loading:
+                    showLoading()
                 default:
                     return
                 }
@@ -143,6 +166,16 @@ internal class NoteListViewController: UIViewController {
     private func refresh() {
         viewError.isHidden = true
         didLoadPublisher.send()
+    }
+
+    private func showLoading() {
+        self.toast = LoadingToast()
+        self.toast?.show(in: self.view)
+        self.viewError.isHidden = true
+    }
+
+    private func hideLoading() {
+        self.toast?.hide()
     }
 }
 

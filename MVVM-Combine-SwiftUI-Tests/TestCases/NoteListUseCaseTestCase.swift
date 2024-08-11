@@ -55,7 +55,7 @@ struct NoteListRepositoryStub: NoteListRepository {
             .eraseToAnyPublisher()
     }
     
-    func save(param: NoteListRequestDTO) -> AnyPublisher<EmptyResponse, NetworkError> {
+    func save(param: NoteListRequestDTO) -> AnyPublisher<Bool, NetworkError> {
         #warning("Implement this later (or not)")
         return Just(.init())
         .setFailureType(to: NetworkError.self)

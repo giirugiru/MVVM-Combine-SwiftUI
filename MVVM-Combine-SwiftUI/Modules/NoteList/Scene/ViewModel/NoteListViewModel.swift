@@ -15,7 +15,7 @@ internal final class NoteListViewModel {
     private let useCase: NoteListUseCase
     private var cancellables = Set<AnyCancellable>()
     let output = Output()
-    
+
     private var item: [NoteListModel]?
     
     // MARK: - Input Output Variable
@@ -29,6 +29,7 @@ internal final class NoteListViewModel {
     
     class Output {
         @Published var result: DataState<[NoteListModel]> = .initiate
+        @Published var addNote: DataState<Bool> = .initiate
     }
     
     deinit {
@@ -137,10 +138,10 @@ internal final class NoteListViewModel {
             .sink { [weak self] result in
                 guard let self else { return }
                 switch result {
-                case .success:
-                    debugPrint("Success save!")
+                case .success(let data):
+                    self.output.addNote = .success(data: data)
                 case .failure(let error):
-                    self.output.result = .failed(reason: error)
+                    self.output.addNote = .failed(reason: error)
                 }
             }
             .store(in: &cancellables)
