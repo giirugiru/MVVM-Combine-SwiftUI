@@ -8,7 +8,7 @@
 import Foundation
 
 internal struct NoteListParameter {
-    let id: String = UUID().uuidString
+    let id: String
     let title: String
     let todoCount: Int
 }
