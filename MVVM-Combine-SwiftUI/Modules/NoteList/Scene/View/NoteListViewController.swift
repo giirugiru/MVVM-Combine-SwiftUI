@@ -30,7 +30,7 @@ internal class NoteListViewController: UIViewController {
     private let didTapReminderButtonPublisher = PassthroughSubject<Void, Never>()
     private let didMarkNote = PassthroughSubject<MarkRequestModel, Never>()
     private let didDeleteNote = PassthroughSubject<String, Never>()
-    private let didAddNewNote = PassthroughSubject<String, Never>()
+    private let didAddNewNote = PassthroughSubject<AddNewModel, Never>()
     
     // MARK: - Initialization Method
     static func create(
@@ -147,8 +147,9 @@ internal class NoteListViewController: UIViewController {
         addNoteWrapper.$didAddNewNote.sink { [weak self] title in
             guard let self = self, let title = title else { return }
             // TODO: - Handle ID in here
-            noteList.append(.init(id: UUID().uuidString, title: title, todoCount: 0, completed: false))
-            didAddNewNote.send(title)
+            let id = UUID().uuidString
+            noteList.append(.init(id: id, title: title, todoCount: 0, completed: false))
+            didAddNewNote.send(.init(id: id, title: title))
             tableView.reloadData()
         }.store(in: &cancellables)
     }

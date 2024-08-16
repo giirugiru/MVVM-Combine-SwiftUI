@@ -24,7 +24,7 @@ internal final class NoteListViewModel {
         let didTapAddReminderButton: PassthroughSubject<Void, Never>
         let didDeleteNote: PassthroughSubject<String, Never> // Pass id
         let didMarkNote: PassthroughSubject<MarkRequestModel, Never>
-        let didAddNewNote: PassthroughSubject<String, Never> // Pass title
+        let didAddNewNote: PassthroughSubject<AddNewModel, Never> // Pass title
     }
     
     class Output {
@@ -129,7 +129,7 @@ internal final class NoteListViewModel {
         input.didAddNewNote
             .receive(on: DispatchQueue.global())
             .flatMap({ request in
-                return self.useCase.save(param: .init(title: request, todoCount: 0))
+                return self.useCase.save(param: .init(id: request.id,title: request.title, todoCount: 0))
                     .map { Result.success($0) }
                     .catch { Just(Result.failure($0)) }
                     .eraseToAnyPublisher()
